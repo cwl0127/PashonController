@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "pins_arduino.h": "c",
+        "variant.h": "c",
+        "array": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "initializer_list": "cpp",
+        "deque": "cpp",
+        "string_view": "cpp",
+        "*.tcc": "cpp",
+        "pinnames.h": "c",
+        "string": "cpp",
+        "stm32_def.h": "c",
+        "stm32f4xx.h": "c",
+        "stm32f4xx_hal.h": "c",
+        "stm32f4xx_hal_conf.h": "c",
+        "stm32f4xx_hal_conf_default.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}

@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "defines": [
+                "ARDUINO=10800",
+                "STM32F4xx"
+            ],
+            "includePath": [
+                "C:\\Users\\Administrator\\AppData\\Local\\Arduino15\\packages\\STM32\\tools\\**",
+                "C:\\Users\\Administrator\\AppData\\Local\\Arduino15\\packages\\STM32\\hardware\\stm32\\1.9.0\\**",
+                "${workspaceRoot}",
+                "C:\\Users\\Administrator\\Documents\\Arduino\\hardware\\tools\\**",
+                "C:\\Users\\Administrator\\Documents\\Arduino\\libraries\\**",
+                "D:\\Program Files (x86)\\Arduino\\libraries\\**",
+                "D:\\Program Files (x86)\\Arduino\\tools\\**"
+            ],
+            "forcedInclude": [
+                "C:\\Users\\Administrator\\AppData\\Local\\Arduino15\\packages\\STM32\\hardware\\stm32\\1.9.0\\cores\\arduino\\Arduino.h"
+            ],
+            "intelliSenseMode": "${default}",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "compilerPath": "C:/Users/Administrator/AppData/Local/Arduino15/packages/STM32/tools/xpack-arm-none-eabi-gcc/9.2.1-1.1/bin/arm-none-eabi-g++.exe"
+        }
+    ],
+    "version": 4
+}
