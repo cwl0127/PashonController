@@ -1,0 +1,593 @@
+#include "PashonController.h"
+
+//xSemaphoreHandle xRcvBinarySem = NULL;
+
+struct ConfInfo
+{
+    uint8_t usrId[6];
+    uint8_t factoryId[4];
+    uint8_t isConfigured;
+};
+
+const int usrInfoEepAddr = 0;
+
+///uint8_t PashonControllerClass::usrNum[6] = {0x53, 0x45, 0x4E, 0x30, 0x30, 0x31};
+//uint8_t PashonControllerClass::factoryNum[4] = {0x14, 0x91, 0x00, 0x01};
+
+PashonControllerClass::PashonControllerClass(ServerConnectionClass *pConn) : _pConn(pConn)
+{
+    // ConfInfo confInfo;
+    // uint8_t *p = reinterpret_cast<uint8_t *>(&confInfo);
+    // for (int i = usrInfoEepAddr; i < sizeof(ConfInfo); ++i)
+    // {
+    //     *p++ = EEPROM.read(i);
+    // }
+    // if (confInfo.isConfigured == 0xAA)
+    // {
+    //     memcpy(usrNum, confInfo.usrId, 6);
+    //     memcpy(factoryNum, confInfo.factoryId, 4);
+    // }
+    // else
+    // {
+    //     memset(usrNum, 0, 6);
+    //     memset(factoryNum, 0, 4);
+    // }
+}
+
+// void PashonControllerClass::setUsrNum(uint8_t *num)
+// {
+//     memcpy(usrNum, num, 6);
+//     for (int i = 0; i < 6; ++i)
+//     {
+//         EEPROM.update(usrInfoEepAddr + offsetof(ConfInfo, usrId) + i, num[i]);
+//     }
+// }
+
+// void PashonControllerClass::setfactoryNum(uint8_t *num)
+// {
+//     memcpy(factoryNum, num, 4);
+//     for (int i = 0; i < 4; ++i)
+//     {
+//         EEPROM.update(usrInfoEepAddr + offsetof(ConfInfo, factoryId) + i, num[i]);
+//     }
+// }
+
+// bool PashonControllerClass::getProgramVersion(uint16_t *val)
+// {
+//     this->readCmd(PRG_VER_ADDR, 1);
+//     /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != PRG_VER_ADDR)
+//         return false;
+        
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]);
+//     return true;
+// }
+
+// void PashonControllerClass::setAutoSwitchOn(bool en)
+// {
+//     uint8_t data[2] = {0};
+//     if (en)
+//     {
+//         data[1] = 0x01;
+//     }
+//     else
+//     {
+//         data[1] = 0;
+//     }
+//     this->writeCmd(AUTO_EN_ADDR, data, 2);
+// }
+
+// bool PashonControllerClass::getAutoSwitchStatus(uint16_t *val)
+// {
+//     this->readCmd(AUTO_EN_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != AUTO_EN_ADDR)
+//         return false;
+    
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]);
+//     return true;
+// }
+
+// bool PashonControllerClass::getSeitchStatus(uint16_t *val)
+// {
+//     this->readCmd(MAIN_OP_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != MAIN_OP_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]);
+//     return true;
+// }
+
+// void PashonControllerClass::operateController(OperateMode mode)
+// {
+//     uint8_t cmd[2] = {0x01};
+//     if (mode == SWITCH_ON)
+//     {
+//         cmd[1] = 0x11;
+//         this->writeCmd(MAIN_OP_ADDR, cmd, 2);
+//     }
+//     else if (mode == SWITCH_OFF)
+//     {
+//         cmd[1] = 0x22;
+//         this->writeCmd(MAIN_OP_ADDR, cmd, 2);
+//     }
+//     else if (mode == REBOOT)
+//     {
+//         cmd[1] = 0xAF;
+//         this->writeCmd(MAIN_OP_ADDR, cmd, 2);
+//     }
+//     else if (mode == CLEAR_FAULT_DATA)
+//     {
+//         cmd[1] = 0xEE;
+//         this->writeCmd(MAIN_OP_ADDR, cmd, 2);
+//     }
+// }
+
+// bool PashonControllerClass::getCurFaultInfo(uint16_t *val)
+// {
+//     this->readCmd(CUR_FAULT_INFO_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != MAIN_OP_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]);
+//     return true;
+// }
+
+// bool PashonControllerClass::getNextFaultInfo(uint16_t *val)
+// {
+//     this->readCmd(NEXT_FAULT_INFO_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != NEXT_FAULT_INFO_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]);
+//     return true;
+// }
+
+// bool PashonControllerClass::getFaultInfoValue(uint16_t *val)
+// {
+//     this->readCmd(NEXT_FAULT_VAL_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != NEXT_FAULT_VAL_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]);
+//     return true;
+// }
+
+// bool PashonControllerClass::getCurrent(float *val)
+// {
+//     this->readCmd(CURRENT_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != CURRENT_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]) / 10.0;
+//     return true;
+// }
+
+// bool PashonControllerClass::getLeakageCurrent(uint16_t *val)
+// {
+//     this->readCmd(LEAKAGE_CURRENT_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != LEAKAGE_CURRENT_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]);
+//     return true;
+// }
+
+// bool PashonControllerClass::getVoltage(float *val)
+// {
+//     this->readCmd(VOLTAGE_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != VOLTAGE_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]) / 100.0;
+//     return true;
+// }
+
+// bool PashonControllerClass::getActivePower(uint16_t *val)
+// {
+//     this->readCmd(ACT_POWER_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != ACT_POWER_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]);
+//     return true;
+// }
+
+// bool PashonControllerClass::getPowerFactor(uint16_t *val)
+// {
+//     this->readCmd(POWER_FACTOR_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != POWER_FACTOR_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]) / 100;
+//     return true;
+// }
+
+// bool PashonControllerClass::getPowerconsumption(float *val) //月用电量
+// {
+//     this->readCmd(POWER_CONSUMPTION_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != POWER_CONSUMPTION_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]) / 10.0;
+//     return true;
+// }
+
+// bool PashonControllerClass::getTemperature(float *val)
+// {
+//     this->readCmd(TEMP_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != TEMP_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]) / 10.0;
+//     return true;
+// }
+
+// bool PashonControllerClass::hasSmoke()
+// {
+//     this->readCmd(SMOKE_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != SMOKE_ADDR)
+//         return false;
+
+//     uint16_t val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]);
+//     return 0x0011 == val;
+// }
+
+// bool PashonControllerClass::getRatedCurrent(float *val)
+// {
+//     this->readCmd(RATE_CURRENT_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != RATE_CURRENT_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]) / 1000.0;
+//     return true;
+// }
+
+// void PashonControllerClass::setRatedCurrent(uint16_t cur)
+// {
+//     uint8_t current[2];
+
+// #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+//     current[0] = HI_UINT16(cur);
+//     current[1] = LO_UINT16(cur);
+// #else
+//     current[1] = HI_UINT16(cur);
+//     current[0] = LO_UINT16(cur);
+// #endif
+//     this->writeCmd(RATE_CURRENT_ADDR, current, 2);
+// }
+
+// bool PashonControllerClass::getLeakageCurrentProtectionVal(uint16_t *val)
+// {
+//     this->readCmd(LEAKAGE_LIMIT_VAL_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != LEAKAGE_LIMIT_VAL_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]);
+//     return true;
+// }
+
+// void PashonControllerClass::setLeakageCurrentProtectionVal(uint16_t val)
+// {
+//     uint8_t leakageCurrent[2];
+
+// #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+//     leakageCurrent[0] = HI_UINT16(val);
+//     leakageCurrent[1] = LO_UINT16(val);
+// #else
+//     leakageCurrent[1] = HI_UINT16(val);
+//     leakageCurrent[0] = LO_UINT16(val);
+// #endif
+//     this->writeCmd(LEAKAGE_LIMIT_VAL_ADDR, leakageCurrent, 2);
+// }
+
+// bool PashonControllerClass::getUnderVoltageLimit(float *val)
+// {
+//     this->readCmd(UNDER_VOL_LIMIT_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != UNDER_VOL_LIMIT_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]) / 100.0;
+//     return true;
+// }
+
+// void PashonControllerClass::setUnderVoltageLimit(uint16_t val)
+// {
+//     uint8_t UnderVoltage[2];
+
+// #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+//     UnderVoltage[0] = HI_UINT16(val);
+//     UnderVoltage[1] = LO_UINT16(val);
+// #else
+//     UnderVoltage[1] = HI_UINT16(val);
+//     UnderVoltage[0] = LO_UINT16(val);
+// #endif
+//     this->writeCmd(LEAKAGE_LIMIT_VAL_ADDR, UnderVoltage, 2);
+// }
+
+// bool PashonControllerClass::getOverVoltageLimit(float *val)
+// {
+//     this->readCmd(OVER_VOL_LIMIT_ADDR, 1);
+
+//      /* 等待应答数据，最大等待300ms */
+//     if (xSemaphoreTake(xRcvBinarySem, pdMS_TO_TICKS(300)) != pdTRUE)
+//         return false;
+
+//     if (rcvDataInfo.regAddress != OVER_VOL_LIMIT_ADDR)
+//         return false;
+
+//     *val = BUILD_UINT16(rcvDataInfo.buf[1], rcvDataInfo.buf[0]) / 100.0;
+//     return true;
+// }
+
+// void PashonControllerClass::setOverVoltageLimit(uint16_t val)
+// {
+//     uint8_t OverVoltage[2];
+
+// #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+//     OverVoltage[0] = HI_UINT16(val);
+//     OverVoltage[1] = LO_UINT16(val);
+// #else
+//     OverVoltage[1] = HI_UINT16(val);
+//     OverVoltage[0] = LO_UINT16(val);
+// #endif
+//     this->writeCmd(LEAKAGE_LIMIT_VAL_ADDR, OverVoltage, 2);
+// }
+
+// void PashonControllerClass::setControllerTiming(String &t)
+// {
+
+// }
+
+// String PashonControllerClass::getControllerTiming()
+// {
+//     String ret;
+
+//     return ret;
+// }
+
+// void PashonControllerClass::clearControllerTiming()
+// {
+//     uint8_t cmd[2] = {0x00, 0x22};
+
+//     this->writeCmd(CLEAR_ALL_TIMING_ADDR, cmd, 2);
+// }
+
+// void PashonControllerClass::operateSubDevice(int num, bool sw)
+// {
+//     switch (num)
+//     {
+//     case 1:
+//         break;
+//     case 2:
+//         break;
+//     case 3:
+//         break;
+//     case 4:
+//         break;
+//     default:
+//         break;
+//     }
+// }
+
+// void PashonControllerClass::setSubDeviceTiming(int num, String &t)
+// {
+// }
+
+// String PashonControllerClass::getSubDeviceTiming(int num)
+// {
+//     String ret;
+    
+//     return ret;
+// }
+
+// void PashonControllerClass::clearSubDeviceTiming(int num)
+// {
+// }
+
+// String PashonControllerClass::getAllSubDeviceStatus()
+// {
+//     String ret;
+    
+//     return ret;
+// }
+
+void PashonControllerClass::loopReceiveData()
+{
+   int len = this->_pConn->receive(this->rcvBuffer, RCV_BUF_SIZE);
+
+   if (len > 0)
+   {
+        portENTER_CRITICAL();
+        Serial.write(this->rcvBuffer, len);
+        portEXIT_CRITICAL();
+    //    if (analysisReceivedData(len))
+    //    {
+    //        if (HEARTBUEAT_ADDR == rcvDataInfo.regAddress && 26 == rcvDataInfo.dataLen == 26)    //心跳包
+    //        {
+    //             uint8_t *pData = &rcvBuffer[14];
+    //             kprintf("Current: %f\r\n", BUILD_UINT16(pData[1], pData[0]) / 1000.0);
+    //        }
+    //        else
+    //        {
+    //            /* code */
+    //        }
+           
+    //    }
+   }
+}
+
+void PashonControllerClass::loopCheckConnection()
+{
+    this->_pConn->doLoop();
+}
+
+// bool PashonControllerClass::readCmd(uint8_t addr, uint16_t cnt)
+// {
+//     uint8_t cmdBuffer[18];
+//     //拷贝用户序列号
+//     memcpy(cmdBuffer, usrNum, 6);
+//     //拷贝帧长度
+//     cmdBuffer[6] = 0x00;
+//     cmdBuffer[7] = 0x08;
+//     //拷贝出厂序列号
+//     memcpy(&cmdBuffer[8], factoryNum, 4);
+//     cmdBuffer[12] = 0x0A; //帧命令
+//     cmdBuffer[13] = addr; //寄存器首地址
+//     //拷贝寄存器数量
+// #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+//     cmdBuffer[14] = HI_UINT16(cnt);
+//     cmdBuffer[15] = LO_UINT16(cnt);
+// #else
+//     cmdBuffer[14] = LO_UINT16(cnt);
+//     cmdBuffer[15] = HI_UINT16(cnt);
+// #endif
+//     //计算CRC16校验值
+//     uint16_t crcValue = crc16Modbus(cmdBuffer, 16);
+//     cmdBuffer[16] = LO_UINT16(crcValue);
+//     cmdBuffer[17] = HI_UINT16(crcValue);
+//     //发送
+//     return this->_pConn->send(cmdBuffer, 18);
+// }
+
+// bool PashonControllerClass::writeCmd(uint8_t addr, uint8_t *buffer, uint16_t cnt)
+// {
+//     if (cnt < 2 && cnt > 12 && (cnt % 2 != 0))
+//     {
+//         DebugPrintln("data length error");
+//         return false;
+//     }
+//     uint8_t cmdBuffer[16 + cnt];
+//     //拷贝用户序列号
+//     memcpy(cmdBuffer, usrNum, 6);
+//     //拷贝帧长度
+//     uint16_t frameLen = 6 + cnt;
+// #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+//     cmdBuffer[6] = HI_UINT16(frameLen);
+//     cmdBuffer[7] = LO_UINT16(frameLen);
+// #else
+//     cmdBuffer[6] = LO_UINT16(frameLen);
+//     cmdBuffer[7] = HI_UINT16(frameLen);
+// #endif
+//     //拷贝出厂序列号
+//     memcpy(&cmdBuffer[8], factoryNum, 4);
+//     cmdBuffer[12] = 0x0B; //帧命令
+//     cmdBuffer[13] = addr; //寄存器地址
+//     memcpy(&cmdBuffer[14], buffer, cnt);
+//     //计算CRC16校验值
+//     uint16_t crcValue = crc16Modbus(cmdBuffer, 14 + cnt);
+
+//     cmdBuffer[14 + cnt] = LO_UINT16(crcValue);
+//     cmdBuffer[15 + cnt] = HI_UINT16(crcValue);
+//     //发送
+//     return this->_pConn->send(cmdBuffer, 16 + cnt);
+// }
+
+// bool PashonControllerClass::analysisReceivedData(int len)
+// {
+//     uint16_t crcVal = crc16Modbus(this->rcvBuffer, len - 2);
+//     uint16_t val = BUILD_UINT16(this->rcvBuffer[len - 2], this->rcvBuffer[len - 1]);
+
+//     if (crcVal != val ||                                    //CRC检验
+//         len < 18 ||                                         //数据信息段长度校验
+//         memcmp(this->rcvBuffer, usrNum, 6) != 0 ||          //用户序列号校验
+//         memcmp(&this->rcvBuffer[8], factoryNum, 4) != 0 ||  //出厂序列号校验
+//         this->rcvBuffer[12] != 0x0A ||                      //读写字节校验
+//         this->rcvBuffer[13] > 122)                          //控制器最大寄存器地址是122
+//     {
+//         this->rcvDataInfo.regAddress = 0xFF;
+//         this->rcvDataInfo.dataLen = 0;
+//         return false;
+//     }
+
+//     this->rcvDataInfo.regAddress = this->rcvBuffer[13];
+//     this->rcvDataInfo.dataLen = len - 16;
+//     memcpy(rcvDataInfo.buf, &(this->rcvBuffer[14]), rcvDataInfo.dataLen);
+//     xSemaphoreGive(xRcvBinarySem);
+
+//     return true;
+// }
+
+PashonControllerClass PashonController(&conn);

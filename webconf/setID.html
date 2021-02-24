@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<HTML>
+
+<HEAD>
+    <META charset="utf-8">
+    <TITLE>智能电源边缘服务器网络参数配置</TITLE>
+    <STYLE type="text/css">
+        .main {
+            padding-top: 30px;
+        }
+
+        .content {
+            background: #FFFAFA;
+            width: 400px;
+            margin: 0 auto;
+            padding: 10px 40px;
+            border-radius: 5px;
+        }
+
+        .content h3 {
+            color: #66b3ff;
+            text-align: center;
+        }
+
+        label {
+            display: inline-block;
+            width: 200px;
+        }
+    </STYLE>
+
+</HEAD>
+<script>
+    function submitFrom() {
+        oAddr = document.getElementById('txtAddr').value;
+        oAddr2 = document.getElementById('txtAddr2').value;
+        var pwdRegex = /^[0-9a-zA-Z]+$/;
+        if (oAddr == '') {
+            alert('智能电源出厂序列号不能为空');
+        } else if (oAddr.length != 6) {
+            alert('能电源出厂序列号只能是6位字母和数字');
+        } else if (!pwdRegex.test(oAddr)) {
+            alert('智能电源出厂序列号只能英文字母、数字或者字母数字混合');
+        } else if (oAddr2 == '') {
+            alert('智能电源用户序列号不能为空');
+        } else if (oAddr2.length != 6) {
+            alert('智能电源用户序列号只能是6位字母和数字');
+        } else if (!pwdRegex.test(oAddr2)) {
+            alert('智能电源用户序列号只能英文字母和数字');
+        } else {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "http://223.75.247.182:8005/",
+                data: {
+                    'factoryid': oAddr,
+                    'usrid': oAddr2,
+                },
+                success: function (result) {
+                    if (result.resultCode == 200) {
+                        window.location.href = "index.html";
+                        window.event.returnValue = false;
+                    }
+
+                },
+            });
+        }
+
+    }
+    function returnFrom() {
+        window.location.href = "index.html";
+        window.event.returnValue = false;
+    }
+
+</script>
+
+<BODY>
+    <DIV class="main">
+        <DIV class="content">
+            <H3>智能电源边缘服务器网络参数配置</H3>
+            <DIV>
+                <FORM id="frmSetting" method="post" action="" name="myForm">
+                    <P>
+                        <LABEL>智能电源出厂序列号:</LABEL>
+                        <INPUT name="factoryid" id="txtAddr" type="text" size="16">
+                    </P>
+                    <P>
+                        <LABEL>智能电源用户序列号:</LABEL>
+                        <INPUT name="usrid" id="txtAddr2" type="text" size="16">
+                    </P>
+                    <P>
+                        <INPUT id="submit" type="submit" value="保存" onclick="submitFrom()" style="margin-right: 100px">
+                        <INPUT type="submit" value="返回" onclick="returnFrom()">
+                    </P>
+                </FORM>
+            </DIV>
+        </DIV>
+    </DIV>
+</BODY>
+</HTML>

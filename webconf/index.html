@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<HTML>
+
+<HEAD>
+    <META charset="utf-8" content="IE=11.0000" http-equiv="X-UA-Compatible">
+    <TITLE>智能电源边缘服务器网络参数配置</TITLE>
+    <META http-equiv="Content-Type" content="text/html; charset=GB2312">
+    <STYLE type="text/css">
+        .wei_margin {
+            margin-bottom: 20px;
+        }
+    </STYLE>
+</HEAD>
+
+<BODY>
+    <div style="margin: 50px auto;width: 300px">
+        <div class="wei_margin">
+            <a href="setID.html">智能电源序列号配置</a><br>
+        </div>
+        <div class="wei_margin">
+            <a href="setIP.html">本地IP地址配置</a><br>
+        </div>
+        <div class="wei_margin">
+            <a href="setSRV.html">服务器地址配置</a><br>
+        </div>
+
+
+
+    </div>
+    <DIV style="margin: 20px auto;width: 300px">
+        <FORM id="Quit" method="POST" action="">
+            <P>
+                <INPUT name="nochange" id="nochange" type="text" size="16" style="display: none">
+                <INPUT type="submit" value="放弃设置并重启" onclick="submitnochange()">
+            </P>
+        </FORM>
+    </DIV>
+</BODY>
+<script>
+    function submitnochange() {
+        nochange = document.getElementById('nochange').value ? '' : '';
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "http://223.75.247.182:8005/",
+            data: {
+                'nochange': nochange,
+            },
+            success: function (result) {
+                // console.log(result);
+                if (result.resultCode == 200) {
+                    alert("SUCCESS");
+                }
+
+            },
+            error: function () {
+                alert("异常！");
+            }
+        })
+    }
+</script>
+<SCRIPT type="text/javascript">
+    settingsCallback({
+        "captcha": "SEN001", "ver": "1.0", "mac": "D0:FC:14:A1:E0:02", "lip": "192.168.1.10", "gw": "192.168.1.1",
+        "sub": "255.255.255.0", "rip": "192.168.5.104", "rip": "console.ps-kj.com", "port": "8080", "factoryid": "", "usrid": ""
+    });
+</SCRIPT>
+
+</HTML>

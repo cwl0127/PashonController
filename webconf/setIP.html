@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<HTML>
+
+<HEAD>
+    <META charset="utf-8" content="IE=11.0000" http-equiv="X-UA-Compatible">
+    <TITLE>智能电源边缘服务器网络参数配置</TITLE>
+    <META http-equiv="Content-Type" content="text/html; charset=GB2312">
+    <STYLE type="text/css">
+        body,
+        html {
+            background-color: #C0DEED;
+        }
+
+        .main {
+            padding-top: 30px;
+        }
+
+        .content {
+            background: #FFFAFA;
+            width: 400px;
+            margin: 0 auto;
+            padding: 10px 40px;
+            border-radius: 5px;
+        }
+
+        .content h3 {
+            color: #66b3ff;
+            text-align: center;
+        }
+
+        label {
+            display: inline-block;
+            width: 200px;
+        }
+
+        label span {
+            color: red;
+        }
+    </STYLE>
+
+    <META name="GENERATOR" content="MSHTML 11.00.10570.1001">
+</HEAD>
+
+<BODY>
+    <DIV class="main">
+        <DIV class="content">
+            <H3>智能电源边缘服务器网络参数配置</H3>
+            <DIV>
+                <FORM id="frmSetting" method="post" action="" name="myForm">
+                    <P>
+                        <LABEL for="txtIp"><span>*</span>本地IP地址:</LABEL>
+                        <INPUT name="lip" id="txtIp" type="text" size="16">
+                    </P>
+                    <P>
+                        <LABEL for="txtSub"><span>*</span>子网掩码:</LABEL>
+                        <INPUT name="sub" id="txtSub" type="text" size="16">
+                    </P>
+                    <P>
+                        <LABEL for="txtGw"><span>*</span>默认网关:</LABEL>
+                        <INPUT name="gw" id="txtGw" type="text" size="16">
+                    </P>
+                    <P>
+                        <INPUT id="submit" type="submit" value="保存" onclick="submitFrom()" style="margin-right: 100px">
+                        <INPUT type="submit" value="返回" onclick="returnFrom()">
+                    </P>
+                </FORM>
+            </DIV>
+        </DIV>
+    </DIV>
+    <script>
+        function submitFrom() {
+            otIp = document.getElementById('txtIp').value;
+            oSub = document.getElementById('txtSub').value;
+            oGw = document.getElementById('txtGw').value;
+            if (otIp == '') {
+                alert('本地IP地址不能为空');
+            } else if (oSub == '') {
+                alert('子网掩码不能为空');
+            } else if (oGw == '') {
+                alert('默认网关不能为空');
+            } else {
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "http://223.75.247.182:8005/",
+                    data: {
+                        'lip': otIp,
+                        'sub': oSub,
+                        'gw': oGw,
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        if (result.resultCode == 200) {
+                            window.location.href = "index.html";
+                            window.event.returnValue = false;
+                            alert("SUCCESS");
+                        }
+
+                    },
+                    error: function () {
+                        alert("异常！");
+                    }
+                });
+                alert("您的资料已提交...");
+            }
+
+        }
+        function returnFrom() {
+            window.location.href = "index.html";
+            window.event.returnValue = false;
+        }
+
+    </script>
+</BODY>
+
+</HTML>

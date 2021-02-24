@@ -1,0 +1,56 @@
+设备上线(每15秒上传一次)
+RELAY_{"ret":"success","control":{"cmd":"ONLINE","mac":"0080E153002F"}}\r\n
+
+1.控制开关指令(下发)
+RELAY_{"cmd":"SWITCH","mac":"0080E153002F","time":"2020-10-30 12:00:00","value":{"status":"open","addr":0}}\r\n
+mac:设备号
+status:open或者close
+addr:表示线路，如果为0，则为全部，>0控制单个线路
+
+2.定时指令(下发)
+RELAY_{"cmd":"UPDATETIMER","mac":"0080E153002F","time":"2020-11-13 13:52:00","value":{"status":"open","time":"13:50:00","weekday":"","addr":"1,2,3,4,5,6,7,8","id":2}}\r\n
+status: open或者close
+time: 定时时间
+weekday: 定时类型为单次时为空，循环时为"1,2,3,4,5,6,7" 表示星期，中间用逗号隔开,单次定时是为空""
+addr: 表示线路编号，多条线路以','隔开
+id: 定时编号，为1或者2，每一个线路可以设置2条定时
+
+3.数据上传(心跳包, 每15秒上传一次)
+RELAY_{"ret":"success","control":{"cmd":"POSTRT","mac":"0080E153002F","time":"2020-10-30 12:00:00","value":[{"addr":0,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":1,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":2,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":3,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":4,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":5,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":6,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":7,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":8,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":9,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":10,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":11,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":12,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":13,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":14,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":15,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""},{"addr":16,"status":"open","A":10.5,"V":220,"P":2000,"E":100.3,"NetCtrl":"true","alarm":""}]}}\r\n
+最多17个回路，实际有几个分路就上传几个分路的状态
+A:电流
+V:电压
+P:功率
+E:月用电量
+NetCtrl:true代表可以远程操控，false反之
+alarm:表示故障,有如下几种故障信息：
+OVER_CUR : 出现过流保护
+OVER_LEAK : 出现漏电保护
+LOW_VIN : 出现欠压保护
+HIGH_VIN : 出现过压保护
+SYS_OFF : 客户通过指令关闭设备输出，或设备出现永久故障断闸
+当有多种故障信息同时存在时，以&做分割，比如"OVER_CUR&HIGH_VIN "表示出现过流保护和过压保护
+
+4.同步时间(下发)
+RELAY_{"cmd":"SYNCTIME","mac":"0080E153002F","value":{"time":1604454886}}\r\n
+
+5.删除指定定时(下发)
+RELAY_{"cmd":"DELTIMER","mac":"0080E153002F","time":"2020-10-30 12:00:00","value":{"addr":"1,2,3", "id":1}}\r\n
+addr:表示分路线路（取值范围0~16）多条线路以,隔开，如果为0，则控制终端, 其中终端可以设置8条定时，对应id为1~8，每一个分路可以设置2条定时，对应id为1~2
+
+6.报警及时上传
+RELAY_{"ret":"success","control":{"cmd":"POSTALARM","mac":"0080E153002F","time":"2020-10-30 12:00:00","value":{"type":""}}}\r\n
+type有如下几种类型：
+open：总路手动分闸
+close：总路手动合闸
+inputoff：总路输入端失压
+overcurrent：过流
+leakage：漏电
+undervoltage：欠压
+
+命令执行成功则返回服务器如下应答消息：
+RELAY_{"ret":"success","control":命令的JSON对象}
+如发送命令：RELAY_{"cmd":"SWITCH","mac":"0080E153002F","time":"2020-10-30 12:00:00","value":{"status":"open","addr":0}}\r\n 执行成功后，返回：
+RELAY_{"ret":"success","control":{"cmd":"SWITCH","mac":"0080E153002F","time":"2020-10-30 12:00:00","value":{"status":"open","addr":0}}}\r\n
+命令执行失败则返回服务器如下应答消息：
+RELAY_{"ret":"failure","control":{"mac":"边缘服务器的mac"}}\r\n
